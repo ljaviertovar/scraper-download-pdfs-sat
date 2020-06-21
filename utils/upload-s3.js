@@ -8,15 +8,24 @@ const URL_SERVICE =
   "http://internal-cpabase-2031371593.us-east-1.elb.amazonaws.com:8081/s3/upload_file";
 const URL_DOWNLOAD_FILE = "https://cpainbox.cpavision.mx/notes/adjuntos/file/";
 
-const upload = async (content, seed) => {
-  console.log(seed)
+const uploadEvidence = async (seed, type) => {
 
-  let fileName = sha1(Date.now()) + "_" + seed + ".pdf"
+  let evidencePath = (type == 1) ? path.join(__dirname, `../screenshots/evidence_${seed}_dec.png`) : path.join(__dirname, `../screenshots/error_${seed}.png`)
+
+  let content = fs.readFileSync(evidencePath, { flag: 'r' }, (err, data) => {
+
+    if (err) throw err;
+
+    return data
+
+  });
+
+  let fileName = sha1(Date.now()) + "_" + seed + ".png"
 
   let request = {
     bucket: "cparespond",
     nombreArchivo: fileName,
-    base64: content
+    base64: content.toString('base64')
   }
 
   const response = await fetch(URL_SERVICE, {
@@ -81,5 +90,5 @@ const uploadPool = async (data) => {
 }
 
 
-module.exports.upload = upload;
-module.exports.uploadPool = uploadPool;
+module.exports.uploadEvidence = uploadEvidence
+module.exports.uploadPool = uploadPool

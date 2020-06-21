@@ -17,6 +17,7 @@ const PUPPETEER_OPTS = {
         '--enable-features=NetworkService',
         '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
     ],
+    // userDataDir: '../cache'
 }
 
 const URL_INIT = 'https://ptscdecprov.clouda.sat.gob.mx/'
@@ -28,6 +29,7 @@ const INPUT_CLAVE = '#privateKeyPassword'
 const SUBMIT_LOGIN = '#submit'
 const FILE_PATH = 'C:/RESPOND/scrappers/declaracionesMensuales/temp/'
 
+const DIV_CONSULT = '#MainContent_pnlConsulta'
 const SELECT_YEAR_DEC = '#MainContent_wucConsultasDeclaracion_wucDdlEjercicioFiscal_ddlCatalogo'
 const BTN_SEARCH_DEC = '#MainContent_btnBuscar'
 const TABLE_SEARCH_DEC = '#MainContent_wucConsultasDeclaracion_gvDeclaraciones'
@@ -45,61 +47,55 @@ async function scrapeMensuales(rfc, clave, year) {
 
         console.log('-> Starting SAT')
         await page.goto(URL_INIT, { waitUntil: ["networkidle0", "domcontentloaded"] })
+        // await page.waitForSelector(BTN_FIEL)
 
         await loginWhithFiel(page, rfc, clave)
 
         await gotToSectionDec(page)
-        await searchDec(page, rfc, year, 'dec')
-        const dataDec = await collectDataDec(page, rfc, 'dec', year)
-        const pdfsEncodeDownloadedDec = await exgtractPdfsDec(page, rfc, dataDec.urlsPdf, 'dec')
+        await searchDec(page, year)
+        const downloadDec = await collectDataDec(page, rfc, 'dec', year)
 
-        const downloadDec = {
-            collectedData: dataDec.collectedData,
-            pdfsEncodeDownloaded: pdfsEncodeDownloadedDec
-        }
+        const download = await exgtractPdfsDecNew(page, rfc, downloadDec, 'dec')
 
-        await page.waitFor(1000)
+        console.log(download)
 
-        await page.close();
-        const newPage = await browser.newPage()
 
-        await gotToSectionAcuse(newPage)
-        await searchDec(newPage, rfc, year, 'acuse')
-        const dataAcuse = await collectDataDec(newPage, rfc, 'acuse', year)
-        const pdfsEncodeDownloadedAcuse = await exgtractPdfsDec(newPage, rfc, dataAcuse.urlsPdf, 'acuse')
+        // await page.waitFor(2000)
+        // await page.close();
+        // const Newpage = await browser.newPage()
 
-        const downloadAcuse = {
-            collectedData: dataAcuse.collectedData,
-            pdfsEncodeDownloaded: pdfsEncodeDownloadedAcuse
-        }
+        // await gotToSectionAcuse(Newpage)
+        // await searchDec(Newpage, year)
+        // const downloadAcuse = await collectDataDec(Newpage, rfc, 'acuse', year)
 
-        return {
-            downloadDec,
-            downloadAcuse
-        }
+        // return {
+        //     downloadDec,
+        //     downloadAcuse
+        // }
+
+  console.log(download)
+
 
     } catch (err) {
 
-        await page.screenshot({ path: `./screenshots/error_${rfc}.png`, fullPage: true })
+        await page.screenshot({ path: './screenshots/error.png', fullPage: true })
 
         console.log('Error: scraper')
         console.log(err)
 
     } finally {
-
-        await page.close();
-        await browser.close();
-
+        // await page.close();
+        // await browser.close();
     }
 
 }
 
 async function loginWhithFiel(page, rfc, clave) {
-
     await Promise.all([page.click(BTN_FIEL), page.waitForNavigation()])
 
     await page.waitFor(1000)
 
+    // LOGIN 
     console.log('-> Entering credentials')
     const inputCer = await page.$(INPUT_CER)
     await inputCer.uploadFile(FILE_PATH + rfc + '.cer')
@@ -138,7 +134,7 @@ async function gotToSectionAcuse(page) {
 
 }
 
-async function searchDec(page, rfc, year, type) {
+async function searchDec(page, year) {
 
     await page.select(SELECT_YEAR_DEC, year)
 
@@ -148,8 +144,6 @@ async function searchDec(page, rfc, year, type) {
         page.click(BTN_SEARCH_DEC),
         page.waitForSelector(TABLE_SEARCH_DEC, { visible: true }),
     ]);
-
-    await page.screenshot({ path: `./screenshots/evidence_${rfc}_${type}.png`, fullPage: true })
 
     return page
 }
@@ -214,12 +208,14 @@ async function collectDataDec(page, rfc, type, year) {
 
     await page.reload()
 
-    return {
-        collectedData,
-        urlsPdf
-    }
+    // const download = exgtractPdfsDecNew(page, rfc, urlsPdf, type)
 
+    // return {
+    //     collectedData,
+    //     download
+    // }
 
+    return urlsPdf
 }
 
 async function getFilteredDeclarations(idsLinkDec, rfc, year) {
@@ -287,32 +283,93 @@ async function getPdfUrls(page, idsLinkDec, type) {
 
 }
 
-async function exgtractPdfsDec(page, rfc, urlsDec, type) {
+async function exgtractPdfsDecNew(page, rfc, urlsDec, type) {
 
     var pdfsEncodeDownloaded = []
     var pdfsEncodeDownloadedFailed = []
 
-    await page.waitFor(1000)
+    console.log('primero',urlsDec[0].pdf )
+     page.goto(urlsDec[0].pdf)
 
-    let promises = [];
+     page.waitFor(1000)
+    
+    // let count = 0
+    // page.setRequestInterception(true)
+
+    // while(count < urlsDec.length){
+
+    //     let pdf = urlsDec[count].pdf
+    //     let operacion = urlsDec[count].operacion
+    //     console.log(operacion)
+    //     console.log(pdf)
+
+    //     // await page.waitFor(2000)
+
+    //     page.goto(pdf)
+
+    //     let requestData = ''
+    //     page.on('request', async (interceptedRequest) => {
+    //         console.log(interceptedRequest.url())
+          
+    //                 if (interceptedRequest.method() === "POST") {
+
+    //                     requestData = interceptedRequest.postData()
+    //                     if (requestData.indexOf('ConsultasDeclaracion') == -1) {
+
+    //                         console.log('correcto', operacion)
+
+    //                         let pdfEncode = extractPdf.extract(requestData, operacion, rfc, type)
+    //                         if (pdfEncode) {
+    //                             pdfsEncodeDownloaded.push(`${type}_${rfc}_${operacion}.txt`)
+    //                         }
+
+    //                         page.removeAllListeners('request');
+
+
+    //                     } else {
+
+    //                         console.log('err', operacion)
+    //                         pdfsEncodeDownloadedFailed.push(operacion)
+
+    //                     }
+
+    //                 }
+
+    //                 interceptedRequest.continue()
+
+              
+    //     })
+
+    //     await page.waitFor(2000)
+
+    //     count++
+
+
+
+    // }
+
+
 
     for (let p = 0; p < urlsDec.length; p++) {
 
-        let prom = new Promise((resolve, reject) => {
-            setTimeout(() => {
+        setTimeout(() => {
+            
+        
 
-                let pdf = urlsDec[p].pdf
-                let operacion = urlsDec[p].operacion
-                console.log(operacion)
-                console.log(pdf)
-                page.setRequestInterception(true)
+        let pdf = urlsDec[p].pdf
+        let operacion = urlsDec[p].operacion
+        console.log(operacion)
+        console.log(pdf)
 
-                page.goto(pdf)
+         page.waitFor(2000)
+        page.setRequestInterception(true)
 
-                let requestData = ''
-                page.on('request', async (interceptedRequest) => {
-                    // console.log(interceptedRequest.url())
+         page.goto(pdf)
 
+        let requestData = ''
+        page.on('request', async (interceptedRequest) => {
+            console.log(interceptedRequest.url())
+          
                     if (interceptedRequest.method() === "POST") {
 
                         requestData = interceptedRequest.postData()
@@ -323,8 +380,6 @@ async function exgtractPdfsDec(page, rfc, urlsDec, type) {
                             let pdfEncode = extractPdf.extract(requestData, operacion, rfc, type)
                             if (pdfEncode) {
                                 pdfsEncodeDownloaded.push(`${type}_${rfc}_${operacion}.txt`)
-
-                                resolve(`${type}_${rfc}_${operacion}.txt`)
                             }
 
                             page.removeAllListeners('request');
@@ -341,25 +396,20 @@ async function exgtractPdfsDec(page, rfc, urlsDec, type) {
 
                     interceptedRequest.continue()
 
+              
+        })
 
-                })
+        // await page.waitFor(2000)
 
-            }, p * 5000);
-
-        }).catch(err => console.log(err))
-
-        promises.push(prom)
+    }, p * 2000);
 
     }
 
-    await Promise.all(promises)
-        .then(values => {
-            console.log('desde promises->', values)
-        }).catch(err => console.log(err))
+    console.log('desde fun->', pdfsEncodeDownloaded)
 
-
-    return pdfsEncodeDownloaded
-
+    return {
+        pdfsEncodeDownloaded
+    }
 }
 
 

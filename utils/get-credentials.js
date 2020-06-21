@@ -1,20 +1,16 @@
 // const path = require('path');
 const fs = require('fs');
 const fetch = require('node-fetch')
-const atob = require('atob');
+const path = require('path');
 
-// const base64 = require('promise-base64');
-
-const URL_GET_FIEL = 'https://respond.cpavision.mx/api/respond/app/cargaFiel/getFiel.php?rfc=';
+const URL_GET_FIEL = 'https://access.cpavision.mx/system/credentialsFiel/';
 
 const getFiel = async (rfc) => {
 
     try {
-        // const URL_CER_TEMP = path.resolve(__dirname, 'temp') + rfc + '.cer'
 
-        // const URL_CER_TEMP = 'C:/RESPOND/scrappers/declaracionesMensuales/temp/' + rfc + '.cer'
-        const URL_CER_TEMP = 'C:/RESPOND/scrappers/declaracionesMensuales/temp/' + rfc + '.cer'
-        const URL_KEY_TEMP = 'C:/RESPOND/scrappers/declaracionesMensuales/temp/' + rfc + '.key'
+        const URL_CER_TEMP = path.join(__dirname, `../temp/${rfc}.cer`)
+        const URL_KEY_TEMP = path.join(__dirname, `../temp/${rfc}.key`)
 
         const response = await fetch(URL_GET_FIEL + rfc)
         const fiel = await response.json();
@@ -22,7 +18,7 @@ const getFiel = async (rfc) => {
         const cer = Buffer.from(fiel.cer, 'base64');
         const key = Buffer.from(fiel.key, 'base64');
 
-        const clave = atob(fiel.clave)
+        const clave = fiel.clave
 
         fs.writeFile(URL_CER_TEMP, cer, (err) => {
 
