@@ -5,6 +5,7 @@ const credentials = require('./utils/get-credentials')
 const uploadS3 = require ('./utils/upload-s3');
 const cleanDisk = require ('./utils/clean-disk');
 const fs = require('fs');
+const path = require('path')
 
 
 const app = express();
