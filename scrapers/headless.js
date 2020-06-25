@@ -217,7 +217,7 @@ async function collectDataDec(page, rfc, type, year) {
     await page.reload()
 
     return {
-        collectedData: collectDataDec.shift(),
+        collectedData,
         urlsPdf
     }
 
