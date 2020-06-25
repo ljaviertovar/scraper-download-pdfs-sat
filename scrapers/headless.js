@@ -88,7 +88,7 @@ async function scrapeMensuales(rfc, clave, year) {
 
     } finally {
 
-        await page.close();
+        // await page.close();
         await browser.close();
 
     }
@@ -305,7 +305,7 @@ async function exgtractPdfsDec(page, rfc, urlsDec, type) {
                 let pdf = urlsDec[p].pdf
                 let operacion = urlsDec[p].operacion
                 console.log(operacion)
-                console.log(pdf)
+                // console.log(pdf)
                 page.setRequestInterception(true)
 
                 page.goto(pdf)
@@ -357,6 +357,7 @@ async function exgtractPdfsDec(page, rfc, urlsDec, type) {
         .then(values => {
             console.log('desde promises->', values)
         }).catch(err => console.log(err))
+
 
 
     return pdfsEncodeDownloaded
