@@ -6,38 +6,63 @@ const clean = async (rfc) => {
 
     try {
 
-        fs.unlink(path.join(__dirname, `../temp/${rfc}.cer`), (err) => {
-            if (err) {
-                console.error(err)
-                return
+        fs.stat(path.join(__dirname, `../temp/${rfc}.cer`), (err) => {
+
+            if (!err) {
+                fs.unlink(path.join(__dirname, `../temp/${rfc}.cer`), (err) => {
+                    if (err) {
+                        console.error(err)
+                        return
+                    }
+                })
             }
         })
 
-        fs.unlink(path.join(__dirname, `../temp/${rfc}.key`), (err) => {
-            if (err) {
-                console.error(err)
-                return
+        fs.stat(path.join(__dirname, `../temp/${rfc}.key`), (err) => {
+
+            if (!err) {
+                fs.unlink(path.join(__dirname, `../temp/${rfc}.key`), (err) => {
+                    if (err) {
+                        console.error(err)
+                        return
+                    }
+                })
             }
         })
 
-        fs.unlink(path.join(__dirname, `../screenshots/error_${rfc}.png`), (err) => {
-            if (err) {
-                console.error(err)
-                return
+        fs.stat(path.join(__dirname, `../screenshots/error_${rfc}.png`), (err) => {
+
+            if (!err) {
+                fs.unlink(path.join(__dirname, `../screenshots/error_${rfc}.png`), (err) => {
+                    if (err) {
+                        console.error(err)
+                        return
+                    }
+                })
             }
         })
 
-        fs.unlink(path.join(__dirname, `../screenshots/evidence_${rfc}_acuse.png`), (err) => {
-            if (err) {
-                console.error(err)
-                return
+        fs.stat(path.join(__dirname, `../screenshots/evidence_${rfc}_acuse.png`), (err) => {
+
+            if (!err) {
+                fs.unlink(path.join(__dirname, `../screenshots/evidence_${rfc}_acuse.png`), (err) => {
+                    if (err) {
+                        console.error(err)
+                        return
+                    }
+                })
             }
         })
 
-        fs.unlink(path.join(__dirname, `../screenshots/evidence_${rfc}_dec.png`), (err) => {
-            if (err) {
-                console.error(err)
-                return
+        fs.stat(path.join(__dirname, `../screenshots/evidence_${rfc}_dec.png`), (err) => {
+
+            if (!err) {
+                fs.unlink(path.join(__dirname, `../screenshots/evidence_${rfc}_dec.png`), (err) => {
+                    if (err) {
+                        console.error(err)
+                        return
+                    }
+                })
             }
         })
 
@@ -57,7 +82,7 @@ const clean = async (rfc) => {
 
         })
 
-        
+
         glob(`**/acuse_${rfc}_*.txt`, function (err, files) {
 
             for (const file of files) {

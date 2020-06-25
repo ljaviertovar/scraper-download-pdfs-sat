@@ -1,9 +1,10 @@
 const puppeteer = require('puppeteer')
 const extractPdf = require('../utils/extract-pdf-encode')
 const getSavedDeclarations = require('../utils/get-saved-declarations')
+const path = require('path')
 
 const PUPPETEER_OPTS = {
-    headless: false,
+    headless: true,
     // devtools: true,
     ignoreHTTPSErrors: true,
     args: [
@@ -26,7 +27,7 @@ const INPUT_CER = '#fileCertificate'
 const INPUT_KEY = '#filePrivateKey'
 const INPUT_CLAVE = '#privateKeyPassword'
 const SUBMIT_LOGIN = '#submit'
-const FILE_PATH = 'C:/RESPOND/scrappers/declaracionesMensuales/temp/'
+const FILE_PATH = path.join(__dirname, `../temp/`)
 
 const SELECT_YEAR_DEC = '#MainContent_wucConsultasDeclaracion_wucDdlEjercicioFiscal_ddlCatalogo'
 const BTN_SEARCH_DEC = '#MainContent_btnBuscar'
