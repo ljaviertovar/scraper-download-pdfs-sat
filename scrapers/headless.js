@@ -183,7 +183,8 @@ async function collectDataDec(page, rfc, type, year) {
                 cfdi: dataColumns[6],
             }
 
-            dataRows.push(data)
+            if(data.operacion != 'No. de Operación')
+                dataRows.push(data)
 
         })
 
@@ -216,7 +217,7 @@ async function collectDataDec(page, rfc, type, year) {
     await page.reload()
 
     return {
-        collectedData,
+        collectedData: collectDataDec.shift(),
         urlsPdf
     }
 
