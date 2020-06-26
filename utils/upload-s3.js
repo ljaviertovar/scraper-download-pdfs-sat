@@ -46,7 +46,7 @@ const uploadPool = async (data) => {
   let pdfsS3 = []
   for (var p = 0; p < data.length; p++) {
 
-    console.log('file->',data[p])
+    console.log('uploading s3 file->',data[p])
 
     let operation = data[p].split('_')
     operation = operation[2].replace('.txt', '')
@@ -67,7 +67,6 @@ const uploadPool = async (data) => {
       nombreArchivo: fileName,
       base64: atob(content.toString('base64'))
     }
-
 
     const response = await fetch(URL_SERVICE, {
       method: "post",

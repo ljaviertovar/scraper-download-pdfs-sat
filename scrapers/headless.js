@@ -97,7 +97,7 @@ async function scrapeMensuales(rfc, clave, year) {
 
 async function loginWhithFiel(page, rfc, clave) {
 
-    await Promise.all([page.click(BTN_FIEL), page.waitForNavigation()])
+    await Promise.all([page.click(BTN_FIEL), page.waitForNavigation({waitUntil: ["networkidle0", "domcontentloaded"]})])
 
     await page.waitFor(1000)
 
@@ -190,6 +190,7 @@ async function collectDataDec(page, rfc, type, year) {
 
         return dataRows
     })
+
 
     const idsLinkDec = await page.evaluate(() => {
         let elements = Array.from(document.querySelectorAll("#MainContent_wucConsultasDeclaracion_gvDeclaraciones > tbody > tr > td > a"))

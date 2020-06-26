@@ -13,14 +13,9 @@
   "dependencies": {
     "atob": "^2.1.2",
     "express": "^4.17.1",
-    "file-get-contents": "^1.0.0",
-    "js-file-download": "^0.4.12",
     "node-fetch": "^2.6.0",
-    "promise-base64": "^1.0.2",
     "puppeteer": "^3.3.0",
-    "request": "^2.88.2",
     "sha1": "^1.1.1",
-    "url-encode-decode": "^1.0.0",
     "urldecode": "^1.0.1"
   },
   "devDependencies": {
