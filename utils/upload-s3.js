@@ -34,7 +34,11 @@ const uploadEvidence = async (seed, type) => {
       "Content-type": "application/json",
     },
     body: JSON.stringify(request)
-  }).then(response => response.json())
+  }).then(response => {
+    
+  //  console.log(response) 
+    return response.json()
+  }).catch(err => console.log(err))
 
 
   return URL_DOWNLOAD_FILE + response.doc.Key;
@@ -74,7 +78,12 @@ const uploadPool = async (data) => {
         "Content-type": "application/json",
       },
       body: JSON.stringify(request)
-    }).then(response => response.json())
+    }).then(response => {
+      
+      // console.log(response)
+      return response.json()
+    
+    }).catch(err => console.log(err))
 
 
     pdfsS3.push({
