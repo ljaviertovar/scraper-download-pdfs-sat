@@ -1,5 +1,4 @@
 const express = require('express')
-// const scraper = require('./scrapers/nonHeadless')
 const scraper = require('./scrapers/headless')
 const credentials = require('./utils/get-credentials')
 const uploadS3 = require ('./utils/upload-s3');
