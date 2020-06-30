@@ -8,15 +8,16 @@ const PUPPETEER_OPTS = {
     // devtools: true,
     ignoreHTTPSErrors: true,
     args: [
-        '--start-maximized',
-        '--ignore-certificate-errors',
+        // '--start-maximized',
+        // '--ignore-certificate-errors',
         '--no-sandbox',
         '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-gpu',
-        '--lang=ja,en-US;q=0.9,en;q=0.8',
-        '--enable-features=NetworkService',
-        '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+        '--no-treekill',
+        // '--disable-dev-shm-usage',
+        // '--disable-gpu',
+        // '--lang=ja,en-US;q=0.9,en;q=0.8',
+        // '--enable-features=NetworkService',
+        // '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
     ],
 }
 
