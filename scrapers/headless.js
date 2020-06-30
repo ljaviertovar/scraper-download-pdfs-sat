@@ -16,7 +16,7 @@ const PUPPETEER_OPTS = {
         // '--disable-dev-shm-usage',
         // '--disable-gpu',
         // '--lang=ja,en-US;q=0.9,en;q=0.8',
-        // '--enable-features=NetworkService',
+        '--enable-features=NetworkService',
         // '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
     ],
 }
