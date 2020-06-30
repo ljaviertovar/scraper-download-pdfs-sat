@@ -12,7 +12,7 @@ const PUPPETEER_OPTS = {
         '--ignore-certificate-errors',
         '--no-sandbox',
         '--disable-setuid-sandbox',
-        '--no-treekill',
+        // '--no-treekill',
         '--disable-dev-shm-usage',
         '--disable-gpu',
         '--lang=ja,en-US;q=0.9,en;q=0.8',
