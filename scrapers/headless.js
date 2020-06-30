@@ -10,8 +10,8 @@ const PUPPETEER_OPTS = {
     args: [
         '--start-maximized',
         // '--ignore-certificate-errors',
-        // '--no-sandbox',
-        // '--disable-setuid-sandbox',
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
         // // '--no-treekill',
         // '--disable-dev-shm-usage',
         // '--disable-gpu',
