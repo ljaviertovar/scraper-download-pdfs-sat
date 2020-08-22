@@ -11,7 +11,7 @@ const app = express();
 
 app.use(compression({ level: 8 }))
 
-app.get('/descarga-mensuales/:rfc/:year', async (req, res) => {
+app.get('/descarga-mensuales-masive/:rfc/:year', async (req, res) => {
 
     const { rfc, year } = req.params
     let response = {

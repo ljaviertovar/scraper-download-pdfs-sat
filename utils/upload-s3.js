@@ -10,12 +10,17 @@ const URL_DOWNLOAD_FILE = "https://cpainbox.cpavision.mx/notes/adjuntos/file/";
 
 const uploadEvidence = async (seed, type) => {
 
-  let evidencePath = (type == 1) ? path.join(__dirname, `../screenshots/evidence_${seed}_dec.png`) : path.join(__dirname, `../screenshots/error_${seed}.png`)
+  let evidencePath = ''
+  if (type == 0) 
+    evidencePath = path.join(__dirname, `../screenshots/error_${seed}.png`)
+  else if(type == 1) 
+    evidencePath = path.join(__dirname, `../screenshots/evidence_${seed}_dec.png`)
+  else if(type == 2) 
+    evidencePath = path.join(__dirname, `../screenshots/evidence_${seed}_dec_region_f.png`)
 
   let content = fs.readFileSync(evidencePath, { flag: 'r' }, (err, data) => {
 
     if (err) throw err;
-
     return data
 
   });

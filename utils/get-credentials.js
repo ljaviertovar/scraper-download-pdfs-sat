@@ -3,7 +3,8 @@ const fs = require('fs');
 const fetch = require('node-fetch')
 const path = require('path');
 
-const URL_GET_FIEL = 'https://access.cpavision.mx/system/credentialsFiel/';
+// const URL_GET_FIEL = 'https://access.cpavision.mx/system/credentialsFiel/';
+const URL_GET_FIEL = 'http://10.0.0.74/system/credentialsFiel/';
 
 const getFiel = async (rfc) => {
 

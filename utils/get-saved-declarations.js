@@ -1,13 +1,14 @@
 const fetch = require('node-fetch')
 
-const URL_SERVICE_RESPOND = 'https://respond.cpavision.mx/api/respond/app/declaraciones/modelNew.php';
+const URL_SERVICE_RESPOND = 'https://respond.cpavision.mx/respond/app/declaraciones/modelNew.php';
 
-const getSaved = async (rfc, year) => {
+const getSaved = async (rfc, year, type) => {
 
     let request = {
         method: 'getDeclaracionesMesualesExistentes',
         rfc,
-        ejercicio: year
+        ejercicio: year,
+        tipo: type
     }
 
     const response = await fetch(URL_SERVICE_RESPOND, {
@@ -24,5 +25,6 @@ const getSaved = async (rfc, year) => {
     return response
 
 }
+
 
 module.exports.getSaved = getSaved
